@@ -53,3 +53,13 @@ suspend fun deleteStudentForUser (email: String, studentID : String) : Boolean{
     }?: return false
 }
 
+suspend fun hasAccessToStudent(id : String, access: Access): Boolean{
+    val student = students.findOneById(id)?: return false  // daj studenta
+    return access in student.accessEmails // vrati true ako već ima pristup
+}
+
+suspend fun addAccessToStudent (id: String, access: Access): Boolean{
+    val  accessEmails = students.findOneById(id)?.accessEmails?: return false
+    return students.updateOneById(id, setValue(Student::accessEmails, accessEmails+access)).wasAcknowledged()
+}
+
