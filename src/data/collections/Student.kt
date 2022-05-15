@@ -8,6 +8,7 @@ data class Student (
     val lastName : String,
     val content : String,
     val date : Long,
+    val ownerEmail : String,
     val accessEmails : List<String>,
     val color: String,
     @BsonId

@@ -23,3 +23,7 @@ suspend fun checkPasswordForEmail(email: String, passwordToCheck : String ) : Bo
     val actualPassword = users.findOne(User::email eq email)?.password?: return false
     return passwordToCheck == actualPassword // ako ima taj korisnik provjeri je li tačan poslani password
 }
+
+suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenata za prijavljenog korisnika
+    return students.find(Student::ownerEmail eq email).toList()
+}

@@ -5,6 +5,7 @@ import ba.unsa.etf.data.collections.User
 import ba.unsa.etf.data.registerUser
 import ba.unsa.etf.routes.loginRoute
 import ba.unsa.etf.routes.registerRoute
+import ba.unsa.etf.routes.studentRoutes
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -34,6 +35,7 @@ fun Application.module(testing: Boolean = false) {
     install(Routing){// definisanje URL pristupnih tačaka
         registerRoute()
         loginRoute()
+        studentRoutes()
     }
 
 }
