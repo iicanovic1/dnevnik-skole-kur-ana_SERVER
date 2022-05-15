@@ -27,3 +27,12 @@ suspend fun checkPasswordForEmail(email: String, passwordToCheck : String ) : Bo
 suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenata za prijavljenog korisnika
     return students.find(Student::ownerEmail eq email).toList()
 }
+
+suspend fun saveStudent (student: Student) : Boolean{
+    val studentExists = students.findOneById(student.id) != null
+    return if(studentExists){ // ako već postoji samo update
+        students.updateOneById(student.id, student).wasAcknowledged()
+    }else{ // ako ne postoji dodaj novog studenta
+        students.insertOne(student).wasAcknowledged()
+    }
+}
