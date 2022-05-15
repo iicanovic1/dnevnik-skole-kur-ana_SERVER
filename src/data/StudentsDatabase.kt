@@ -1,9 +1,11 @@
 package ba.unsa.etf.data
 
+import ba.unsa.etf.data.collections.Access
 import ba.unsa.etf.data.collections.Student
 import ba.unsa.etf.data.collections.User
+import org.litote.kmongo.*
+import org.litote.kmongo.MongoOperator.or
 import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 
 private val client = KMongo.createClient().coroutine // objašnjava da bazi pristupamo sa korutinama
@@ -25,7 +27,7 @@ suspend fun checkPasswordForEmail(email: String, passwordToCheck : String ) : Bo
 }
 
 suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenata za prijavljenog korisnika
-    return students.find(Student::ownerEmail eq email).toList()
+    return students.find(Student::accessEmails / Access::email eq email).toList()
 }
 
 suspend fun saveStudent (student: Student) : Boolean{
@@ -36,3 +38,18 @@ suspend fun saveStudent (student: Student) : Boolean{
         students.insertOne(student).wasAcknowledged()
     }
 }
+
+suspend fun deleteStudentForUser (email: String, studentID : String) : Boolean{
+    val student = students.findOne(Student::id eq studentID, Student::accessEmails / Access::email eq email)
+    student?.let { student ->
+        if(student.accessEmails.size > 1){
+            // ima više pristupa samo brišemo email iz Liste pristupa
+            val studentAccess = student.accessEmails.find { access -> access.email == email }
+            val newAccesEmails = student.accessEmails - studentAccess
+            val updateResult = students.updateOne(Student::id eq student.id, setValue(Student::accessEmails, newAccesEmails))
+            return updateResult.wasAcknowledged()
+        }
+        return students.deleteOneById(student.id).wasAcknowledged()
+    }?: return false
+}
+
