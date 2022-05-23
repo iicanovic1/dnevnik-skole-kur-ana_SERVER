@@ -3,6 +3,7 @@ package ba.unsa.etf.data
 import ba.unsa.etf.data.collections.Access
 import ba.unsa.etf.data.collections.Student
 import ba.unsa.etf.data.collections.User
+import ba.unsa.etf.security.checkHashForPassword
 import org.litote.kmongo.*
 import org.litote.kmongo.MongoOperator.or
 import org.litote.kmongo.coroutine.coroutine
@@ -23,7 +24,7 @@ suspend fun checkIfUserExists(email : String) :Boolean{ // testira potojanje kor
 
 suspend fun checkPasswordForEmail(email: String, passwordToCheck : String ) : Boolean {
     val actualPassword = users.findOne(User::email eq email)?.password?: return false
-    return passwordToCheck == actualPassword // ako ima taj korisnik provjeri je li tačan poslani password
+    return checkHashForPassword(passwordToCheck,actualPassword) // ako ima taj korisnik provjeri je li tačan poslani password
 }
 
 suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenata za prijavljenog korisnika

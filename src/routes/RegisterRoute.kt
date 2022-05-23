@@ -5,6 +5,7 @@ import ba.unsa.etf.data.collections.User
 import ba.unsa.etf.data.registerUser
 import ba.unsa.etf.data.requests.AccountRequest
 import ba.unsa.etf.data.responses.SimpleResponse
+import ba.unsa.etf.security.getHashWithSalt
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -22,7 +23,7 @@ fun Route.registerRoute (){
             }
             val userExists = checkIfUserExists(request.email)
             if(!userExists){
-                if(registerUser(User(request.email, request.password))){
+                if(registerUser(User(request.email, getHashWithSalt(request.password)))){
                     call.respond(HttpStatusCode.OK, SimpleResponse(true,"Uspješno kreiran račun!"))
                 }else{
                     call.respond(HttpStatusCode.OK,SimpleResponse(false,"Nepoznata greška!"))
