@@ -75,13 +75,13 @@ fun Route.studentRoutes() {
                     )
                     return@post
                 }
-                if(hasAccessToStudent(request.noteID,request.access)){
+                if(hasAccessToStudent(request.studentID,request.access)){
                     call.respond(
                         OK,SimpleResponse(false,"Korisnik već ima pristup!")
                     )
                     return@post
                 }
-                if(addAccessToStudent(request.noteID,request.access)){
+                if(addAccessToStudent(request.studentID,request.access)){
                     call.respond(
                         OK,
                         SimpleResponse(true, "${request.access.email} sada ima pristup!")
