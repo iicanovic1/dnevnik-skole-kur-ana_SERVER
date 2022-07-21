@@ -1,5 +1,5 @@
 package ba.unsa.etf.data.requests
 
-data class DeleteNoteRequest (
+data class DeleteStudentRequest (
     val id:String
     )

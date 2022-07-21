@@ -26,13 +26,13 @@ fun Application.module(testing: Boolean = false) {
         configureAuth() // konfiguriše autentifikaciju
     }
     install(DefaultHeaders) // presreče zahtjeve i dodaje osnovne Headere u njih
-    install(CallLogging) // loguje sve zahtjeve i odgovore sa/prema serveru
+    install(CallLogging) // loguje sve zahtjeve i odgovore sa/prema serveru, korisno kod Debugginga
     install(ContentNegotiation) { // definiše u kojem tipu podatka se nalazi odgovor sa servera
         gson {
-            setPrettyPrinting() // hoćemo JSON
+            setPrettyPrinting() // odabiramo JSON
         }
     }
-    install(Routing){// definisanje URL pristupnih tačaka
+    install(Routing){// definisanje URL pristupnih tačaka koje Clijent kontaktira
         registerRoute()
         loginRoute()
         studentRoutes()
@@ -43,7 +43,7 @@ fun Application.module(testing: Boolean = false) {
 private fun Authentication.Configuration.configureAuth(){
     basic {
         realm = "Dnevnik Skole Kur'ana" // ime servera prilikom skočnog prozora
-        validate { credentials ->
+        validate { credentials -> // ono što je korisnik unio da se pokuša prijaviti
             val email = credentials.name
             val password = credentials.password
             if(checkPasswordForEmail(email,password)){

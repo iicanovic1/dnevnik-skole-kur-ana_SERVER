@@ -3,11 +3,10 @@ package ba.unsa.etf.routes
 import ba.unsa.etf.data.*
 import ba.unsa.etf.data.collections.Student
 import ba.unsa.etf.data.requests.AddAccessRequest
-import ba.unsa.etf.data.requests.DeleteNoteRequest
+import ba.unsa.etf.data.requests.DeleteStudentRequest
 import ba.unsa.etf.data.responses.SimpleResponse
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.http.*
 import io.ktor.http.HttpStatusCode.Companion.BadRequest
 import io.ktor.http.HttpStatusCode.Companion.Conflict
 import io.ktor.http.HttpStatusCode.Companion.OK
@@ -47,7 +46,7 @@ fun Route.studentRoutes() {
             post {
                 val email = call.principal<UserIdPrincipal>()!!.name
                 val request = try {
-                    call.receive<DeleteNoteRequest>()
+                    call.receive<DeleteStudentRequest>()
                 }catch (e : ContentTransformationException){
                     call.respond(BadRequest)
                     return@post

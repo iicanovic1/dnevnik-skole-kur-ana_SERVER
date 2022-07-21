@@ -10,7 +10,7 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
 private val client = KMongo.createClient().coroutine // objašnjava da bazi pristupamo sa korutinama
-private val database = client.getDatabase("DnevnikSkoleKurAnaDatabase") // kreira bazu
+private val database = client.getDatabase("DnevnikSkoleKurAnaDatabase") // kreira bazu sa imenom
 private val users = database.getCollection<User>() // ako nema kolekcije korisnika ono je kreira
 private val students = database.getCollection<Student>()
 
@@ -27,7 +27,7 @@ suspend fun checkPasswordForEmail(email: String, passwordToCheck : String ) : Bo
     return checkHashForPassword(passwordToCheck,actualPassword) // ako ima taj korisnik provjeri je li tačan poslani password
 }
 
-suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenata za prijavljenog korisnika
+suspend fun getStudentsForUser(email : String) : List<Student> { // dobavlja studenate za prijavljenog korisnika
     return students.find(Student::accessEmails / Access::email eq email).toList()
 }
 
@@ -46,8 +46,8 @@ suspend fun deleteStudentForUser (email: String, studentID : String) : Boolean{
         if(student.accessEmails.size > 1){
             // ima više pristupa samo brišemo email iz Liste pristupa
             val studentAccess = student.accessEmails.find { access -> access.email == email }
-            val newAccesEmails = student.accessEmails - studentAccess
-            val updateResult = students.updateOne(Student::id eq student.id, setValue(Student::accessEmails, newAccesEmails))
+            val newAccessEmails = student.accessEmails - studentAccess
+            val updateResult = students.updateOne(Student::id eq student.id, setValue(Student::accessEmails, newAccessEmails))
             return updateResult.wasAcknowledged()
         }
         return students.deleteOneById(student.id).wasAcknowledged()
