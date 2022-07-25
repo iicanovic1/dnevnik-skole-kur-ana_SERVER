@@ -1,6 +1,7 @@
 package ba.unsa.etf.data
 
 import ba.unsa.etf.data.collections.Access
+import ba.unsa.etf.data.collections.Answer
 import ba.unsa.etf.data.collections.Student
 import ba.unsa.etf.data.collections.User
 import ba.unsa.etf.security.checkHashForPassword
@@ -64,3 +65,7 @@ suspend fun addAccessToStudent (id: String, access: Access): Boolean{
     return students.updateOneById(id, setValue(Student::accessEmails, accessEmails+access)).wasAcknowledged()
 }
 
+suspend fun addAnswerToStudent (id: String, answer: Answer): Boolean{
+    val  answers = students.findOneById(id)?.answers?: return false
+    return students.updateOneById(id, setValue(Student::answers, answers+answer)).wasAcknowledged()
+}

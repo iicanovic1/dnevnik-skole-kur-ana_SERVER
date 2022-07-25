@@ -10,6 +10,8 @@ data class Student (
     val date : Long,
     val accessEmails : List<Access>,
     val color: String,
+    val answers : List<Answer>,
+    val average : Float,
     @BsonId
     val id : String = ObjectId().toString()
 )
