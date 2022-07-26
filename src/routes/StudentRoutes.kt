@@ -3,7 +3,6 @@ package ba.unsa.etf.routes
 import ba.unsa.etf.data.*
 import ba.unsa.etf.data.collections.Student
 import ba.unsa.etf.data.requests.AddAccessRequest
-import ba.unsa.etf.data.requests.AddAnswerRequest
 import ba.unsa.etf.data.requests.DeleteStudentRequest
 import ba.unsa.etf.data.responses.SimpleResponse
 import io.ktor.application.*
@@ -93,25 +92,5 @@ fun Route.studentRoutes() {
         }
     }
 
-    route("/addAnswerToStudent"){
-        authenticate {
-            post{
-                val request = try {
-                    call.receive<AddAnswerRequest>()
-                }catch (e : ContentTransformationException){
-                    call.respond(BadRequest)
-                    return@post
-                }
 
-                if(addAnswerToStudent(request.studentID,request.answer)){
-                    call.respond(
-                        OK,
-                        SimpleResponse(true, "Odgovor je uspješno spašen!")
-                    )
-                }else{
-                    call.respond(Conflict)
-                }
-            }
-        }
-    }
 }

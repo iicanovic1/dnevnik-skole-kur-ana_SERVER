@@ -64,8 +64,3 @@ suspend fun addAccessToStudent (id: String, access: Access): Boolean{
     val  accessEmails = students.findOneById(id)?.accessEmails?: return false
     return students.updateOneById(id, setValue(Student::accessEmails, accessEmails+access)).wasAcknowledged()
 }
-
-suspend fun addAnswerToStudent (id: String, answer: Answer): Boolean{
-    val  answers = students.findOneById(id)?.answers?: return false
-    return students.updateOneById(id, setValue(Student::answers, answers+answer)).wasAcknowledged()
-}
