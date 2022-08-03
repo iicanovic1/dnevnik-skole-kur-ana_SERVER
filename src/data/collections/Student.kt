@@ -7,11 +7,11 @@ data class Student (
     val name : String,
     val lastName : String,
     val content : String,
-    val date : Long,
+    var date : Long,
     val accessEmails : List<Access>,
     val color: String,
-    val answers : List<Answer>,
-    val average : Float,
+    var answers : List<Answer>,
+    var sumOfMarks : Int = 0,
     @BsonId
     val id : String = ObjectId().toString()
 )
