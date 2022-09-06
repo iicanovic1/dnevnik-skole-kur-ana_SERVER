@@ -59,9 +59,9 @@ dependencies {
     testImplementation "io.ktor:ktor-server-tests:$ktor_version" // ktor
     implementation "io.ktor:ktor-auth:$ktor_version" // autentifikacija API-ja
     implementation "io.ktor:ktor-gson:$ktor_version" // primanje i slanje JSON stringova
-    implementation 'org.litote.kmongo:kmongo:4.2.7' // ktor + mongo
-    implementation 'org.litote.kmongo:kmongo-coroutine:4.2.7'  // ktor + mongo + korutine
+    implementation 'org.litote.kmongo:kmongo:4.7.0' // ktor + mongo
+    implementation 'org.litote.kmongo:kmongo-coroutine:4.7.0'  // ktor + mongo + korutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4' // korutine
-    implementation 'commons-codec:commons-codec:1.14' // sigurnost
+    implementation 'commons-codec:commons-codec:20041127.091804' // sigurnost
     implementation "io.ktor:ktor-network-tls:$ktor_version" // sigurnost
 }
